@@ -10,6 +10,9 @@ namespace Rnet
     {
         static void Main(string[] args)
         {
+            ConsoleHelper.FixEncoding();
+
+            ConsoleHelper.Wait();
         }
     }
 }
