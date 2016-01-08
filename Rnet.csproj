@@ -41,7 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\AddData.cs" />
+    <Compile Include="Classes\Client.cs" />
     <Compile Include="Classes\ConsoleHelper.cs" />
+    <Compile Include="Classes\Controller.cs" />
+    <Compile Include="Classes\Exceptions.cs" />
+    <Compile Include="Classes\File.cs" />
+    <Compile Include="Classes\SS.cs" />
+    <Compile Include="Classes\Storage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,0 +1,24 @@
+Rnet notes
+
+Current todo:
+	-Add more options to clientmain
+
+
+Basic functionality:
+	client: create/read/write file (in memory). Connect to storage bank. Save file to memory. Upload file to storage. Each 	client has a unique ID
+	
+	storage: store files, create acces logs
+
+
+Network types:
+	Barebones: Clients acces storage banks, read/write files
+	Barebones communication: Clients can read/write from storage, and send strings to other clients
+
+Barebones network:
+	-client: reads/writes files
+	-storage: stores files
+	
+	Clients can read and write to and from a storage bank. File is copied to client, edited and uploaded. Newest 	 version of a file is shown, oldder version are not saved.
+	
+Barebones communication:
+	The clienets can send/recieve strings to/from other clients. optional chatlog?
