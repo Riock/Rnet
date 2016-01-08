@@ -31,6 +31,17 @@ namespace Rnet.Classes
             this.created = DateTime.Now;
             this.lastEdited = DateTime.Now;
         }
+        /// <summary>
+        /// Returns a copy of the given file
+        /// </summary>
+        /// <param name="file">File to copy</param>
+        public File(File file)
+        {
+            this.name = file.name;
+            this.content = file.content;
+            this.created = file.created;
+            this.lastEdited = file.lastEdited;
+        }
 
         /// <summary>
         /// Completely rewrites the content of a file

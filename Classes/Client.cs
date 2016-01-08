@@ -34,6 +34,7 @@ namespace Rnet.Classes
                 ConsoleHelper.WriteLine("Disconnecting from " + this.ConnectedTo.ID, ConsoleColor.Green);
             }
             this.ConnectedTo = storage;
+            this.ConnectedTo.LogConnected(this);
             ConsoleHelper.WriteLine("Connected to " + storage.ID, ConsoleColor.Green);
         }
         /// <summary>
@@ -48,8 +49,50 @@ namespace Rnet.Classes
             }
 
             ConsoleHelper.WriteLine("Disconnecting from " + this.ConnectedTo.ID, ConsoleColor.Green);
+            this.ConnectedTo.LogDisconnected(this);
             this.ConnectedTo = null;
             ConsoleHelper.WriteLine("Disconnected succesfully" , ConsoleColor.Green);
+        }
+        /// <summary>
+        /// Downloads a copy of a file to the local memory, replaces the current file in memomory
+        /// </summary>
+        /// <param name="file">The file to download</param>
+        public void Download()
+        {
+            File file = null;            
+
+            foreach (File f in this.ConnectedTo.Files)
+            {
+                if (f.name == Controller.LastInput)
+                {
+                    file = f;
+                }
+            }
+
+            if (file == null)
+            {
+                ConsoleHelper.WriteLine(file.name + "does not exsist on " + this.ConnectedTo.ID, Controller.DefaultErrorColor);
+                return;
+            }
+
+            if (Memory != null)
+            {
+                ConsoleHelper.WriteLine("Deleting " + Memory.name + " from memory", Controller.DefaultColor);
+                Memory = null;
+                ConsoleHelper.WriteLine("Memory succesfully cleared", Controller.DefaultSuccesColor);
+            }
+
+            ConsoleHelper.WriteLine("Requesting download for " + file.name, Controller.DefaultColor);
+            foreach (File f in this.ConnectedTo.Files)
+            {
+                if (f.name == file.name)
+                {
+                    Memory = this.ConnectedTo.DownloadFile(f, this);
+                    ConsoleHelper.WriteLine("Succesfully downloaded " + Memory.name, Controller.DefaultSuccesColor);
+                    return;
+                }                
+            }
+            ConsoleHelper.WriteLine(file.name + "does not exsist on " + this.ConnectedTo.ID, Controller.DefaultErrorColor);
         }
     }
 }

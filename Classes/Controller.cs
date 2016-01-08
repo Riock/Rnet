@@ -13,7 +13,7 @@ namespace Rnet.Classes
         /// </summary>
         public static Client ActiveClient { get; private set; }
         /// <summary>
-        /// The last input entered
+        /// Gets the last input entered
         /// </summary>
         public static String LastInput { get; private set; }
         /// <summary>
@@ -137,6 +137,19 @@ namespace Rnet.Classes
                 ClientMain();
                 return;
             }
+            else if (LastInput == "download" || LastInput == "dl")
+            {
+                DownloadFile();
+                ClientMain();
+                return;
+            }
+            else if (LastInput == "memory" || LastInput == "mem")
+            {
+                Memory();
+                ClientMain();
+                return;
+
+            }
             ClientMain();
         }
         /// <summary>
@@ -195,6 +208,29 @@ namespace Rnet.Classes
                 Console.WriteLine(f.name);
             }
             ClientMain();
+        }
+        public static void DownloadFile()
+        {
+            if (ActiveClient.ConnectedTo == null)
+            {
+                ConsoleHelper.WriteLine("Not connected to a storage", Controller.DefaultErrorColor);
+                return;
+            }
+
+            ConsoleHelper.WriteLine("Download which file?", Controller.DefaultColor);
+            Controller.ReadInput();
+
+            ActiveClient.Download();
+            ClientMain();
+        }
+        public static void Memory()
+        {
+            if (ActiveClient.Memory != null)
+            {
+                ConsoleHelper.WriteLine("Current file in memory: " + ActiveClient.Memory.name, ConsoleColor.Yellow);
+                return;
+            }
+            ConsoleHelper.WriteLine("Memory is empty", DefaultErrorColor);
         }
     }
 }
