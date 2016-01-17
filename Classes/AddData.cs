@@ -26,7 +26,7 @@ namespace Rnet.Classes
             }
 
             //add files
-            SS.Storages[0].Files.Add(new File("Welcome", "Welcome to Rnet, have fun!"));
+            SS.Storages[0].Files.Add(new File("Welcome", "Welcome to Rnet, have fun! \r\nNew line."));
             SS.Storages[0].Files.Add(new File("Readme", "Or don't, whatever."));
             SS.Storages[1].Files.Add(new File("s1", "Welcome to s1!"));
             SS.Storages[2].Files.Add(new File("ayy", "lmao"));

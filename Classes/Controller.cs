@@ -68,7 +68,8 @@ namespace Rnet.Classes
 
             if (LastInput == "exit")
             {
-                return;
+                ConsoleHelper.Wait("Program terminated, press any key to quit");
+                Environment.Exit(0);                
             }
 
             foreach (Client c in SS.Clients)
@@ -87,7 +88,7 @@ namespace Rnet.Classes
             ConnectClient();
         }
         /// <summary>
-        /// Disconnects the terminal from the current client
+        /// Disconnects the terminal from the current client. Doesn't log the client out of te storage, if any.
         /// </summary>
         public static void DisconnectClient()
         {
@@ -105,7 +106,7 @@ namespace Rnet.Classes
             if (ActiveClient.Memory != null)
             {
                 Console.Write("Current file in memory: ");
-                ConsoleHelper.WriteLine(ActiveClient.Memory.name, ConsoleColor.Yellow);
+                ConsoleHelper.WriteLine(ActiveClient.Memory.Name, ConsoleColor.Yellow);
             }
         }
         /// <summary>
@@ -148,14 +149,31 @@ namespace Rnet.Classes
                 Memory();
                 ClientMain();
                 return;
-
+            }
+            else if (LastInput == "log")
+            {
+                Log();
+                ClientMain();
+                return;
+            }
+            else if (LastInput == "upload" || LastInput == "up")
+            {
+                Upload();
+                ClientMain();
+                return;
+            }
+            else if (LastInput == "view" || LastInput == "v")
+            {
+                View();
+                ClientMain();
+                return;
             }
             ClientMain();
         }
         /// <summary>
         /// Connect a client to a storage
         /// </summary>
-        public static void ConnectStorage()
+        private static void ConnectStorage()
         {
             ConsoleHelper.WriteLine("Select a storage to connect to", ConsoleColor.Yellow);
 
@@ -180,7 +198,7 @@ namespace Rnet.Classes
         /// <summary>
         /// Disconnects from the current storage
         /// </summary>
-        public static void DisconnectStorage()
+        private static void DisconnectStorage()
         {
             ActiveClient.Disconnect();
             ClientMain();
@@ -188,7 +206,7 @@ namespace Rnet.Classes
         /// <summary>
         /// Lists the contents of the currently connected storage
         /// </summary>
-        public static void List()
+        private static void List()
         {
             if (ActiveClient.ConnectedTo == null)
             {
@@ -205,11 +223,11 @@ namespace Rnet.Classes
 
             foreach (File f in ActiveClient.ConnectedTo.Files)
             {
-                Console.WriteLine(f.name);
+                Console.WriteLine(f.Name);
             }
             ClientMain();
         }
-        public static void DownloadFile()
+        private static void DownloadFile()
         {
             if (ActiveClient.ConnectedTo == null)
             {
@@ -223,14 +241,50 @@ namespace Rnet.Classes
             ActiveClient.Download();
             ClientMain();
         }
-        public static void Memory()
+        private static void Memory()
         {
             if (ActiveClient.Memory != null)
             {
-                ConsoleHelper.WriteLine("Current file in memory: " + ActiveClient.Memory.name, ConsoleColor.Yellow);
+                ConsoleHelper.WriteLine("Current file in memory: " + ActiveClient.Memory.Name, ConsoleColor.Yellow);
                 return;
             }
             ConsoleHelper.WriteLine("Memory is empty", DefaultErrorColor);
+        }
+        private static void Log()
+        {
+            if (ActiveClient.ConnectedTo == null)
+            {
+                ConsoleHelper.WriteLine("Not connected to a storage", DefaultErrorColor);
+                return;
+            }
+            ActiveClient.ConnectedTo.ViewLog(ActiveClient);
+        }
+        private static void Upload()
+        {
+            if (ActiveClient.ConnectedTo == null)
+            {
+                ConsoleHelper.WriteLine("Not connected to a storage", DefaultErrorColor);
+                return;
+            }
+            if (ActiveClient.Memory == null)
+            {
+                ConsoleHelper.WriteLine("No file in memory", DefaultErrorColor);
+                return;
+            }
+
+            ActiveClient.ConnectedTo.UploadFile(ActiveClient.Memory, ActiveClient);
+        }
+        private static void View()
+        {
+            if (ActiveClient.Memory == null)
+            {
+                ConsoleHelper.WriteLine("No file in memory", DefaultErrorColor);
+                return;
+            }
+
+            ConsoleHelper.WriteLine("Viewing " + ActiveClient.Memory.Name, DefaultColor);
+            ConsoleHelper.WriteLine(ActiveClient.Memory.Content, ConsoleColor.White);
+            ConsoleHelper.WriteLine("End of file", DefaultColor);
         }
     }
 }

@@ -52,11 +52,50 @@ namespace Rnet.Classes
         /// <returns>The downloaded file</returns>
         public File DownloadFile(File file, Client client)
         {
-            ConsoleHelper.WriteLine("Copying " + file.name, Controller.DefaultColor);
+            ConsoleHelper.WriteLine("Copying " + file.Name, Controller.DefaultColor);
             File ret = new File(file);
-            this.Log.Add(DateTime.Now + " - " + client.ID + "initiated a download for " + file.name);
-            ConsoleHelper.WriteLine("Succesfully copied " + file.name, Controller.DefaultSuccesColor);
+            this.Log.Add(DateTime.Now + " - " + client.ID + " initiated a download for " + file.Name);
+            ConsoleHelper.WriteLine("Succesfully copied " + file.Name, Controller.DefaultSuccesColor);
             return ret;
+        }
+        /// <summary>
+        /// Views the log
+        /// </summary>
+        /// <param name="client">The client that makes the request, for logging</param>
+        public void ViewLog(Client client)
+        {       
+            foreach (string s in this.Log)
+            {
+                ConsoleHelper.WriteLine(s, Controller.DefaultColor);
+            }
+            ConsoleHelper.WriteLine("End of file", Controller.DefaultSuccesColor);
+
+            this.Log.Add(DateTime.Now + " - " + client.ID + " viewed log");
+        }
+        /// <summary>
+        /// Upload a file to the storage
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="client"></param>
+        public void UploadFile(File file, Client client)
+        {
+            foreach (File f in this.Files)
+            {
+                if (f.Name == file.Name)
+                {
+                    ConsoleHelper.WriteLine("Uploading file", Controller.DefaultColor);
+                    f.Update(file);
+                    ConsoleHelper.WriteLine("Upload succesfull", Controller.DefaultSuccesColor);
+
+                    Log.Add(DateTime.Now + " - " + client.ID + " uploaded " + file.Name + " version " + file.Version);
+                    return;
+                }
+            }
+            ConsoleHelper.WriteLine("Could not find file. Creating new file", Controller.DefaultColor);
+            file.VersionReset();
+            Files.Add(file);
+            ConsoleHelper.WriteLine("Upload succesfull", Controller.DefaultSuccesColor);
+            Log.Add(DateTime.Now + " - " + client.ID + " uploaded " + file.Name + " version " + file.Version);
         }
     }
 }

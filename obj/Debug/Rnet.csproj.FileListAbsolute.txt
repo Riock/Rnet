@@ -4,3 +4,5 @@ d:\users\rick\documents\visual studio 2013\Projects\Rnet\Rnet\bin\Debug\Rnet.pdb
 d:\users\rick\documents\visual studio 2013\Projects\Rnet\Rnet\obj\Debug\Rnet.csprojResolveAssemblyReference.cache
 d:\users\rick\documents\visual studio 2013\Projects\Rnet\Rnet\obj\Debug\Rnet.exe
 d:\users\rick\documents\visual studio 2013\Projects\Rnet\Rnet\obj\Debug\Rnet.pdb
+d:\Users\Rick\documents\visual studio 2013\Projects\Rnet\Rnet\obj\Debug\Rnet.csproj.GenerateResource.Cache
+d:\Users\Rick\documents\visual studio 2013\Projects\Rnet\Rnet\obj\Debug\Rnet.View.resources

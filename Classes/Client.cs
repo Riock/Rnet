@@ -63,7 +63,7 @@ namespace Rnet.Classes
 
             foreach (File f in this.ConnectedTo.Files)
             {
-                if (f.name == Controller.LastInput)
+                if (f.Name == Controller.LastInput)
                 {
                     file = f;
                 }
@@ -71,28 +71,28 @@ namespace Rnet.Classes
 
             if (file == null)
             {
-                ConsoleHelper.WriteLine(file.name + "does not exsist on " + this.ConnectedTo.ID, Controller.DefaultErrorColor);
+                ConsoleHelper.WriteLine(Controller.LastInput + " does not exsist on " + this.ConnectedTo.ID, Controller.DefaultErrorColor);
                 return;
             }
 
             if (Memory != null)
             {
-                ConsoleHelper.WriteLine("Deleting " + Memory.name + " from memory", Controller.DefaultColor);
+                ConsoleHelper.WriteLine("Deleting " + Memory.Name + " from memory", Controller.DefaultColor);
                 Memory = null;
                 ConsoleHelper.WriteLine("Memory succesfully cleared", Controller.DefaultSuccesColor);
             }
 
-            ConsoleHelper.WriteLine("Requesting download for " + file.name, Controller.DefaultColor);
+            ConsoleHelper.WriteLine("Requesting download for " + file.Name, Controller.DefaultColor);
             foreach (File f in this.ConnectedTo.Files)
             {
-                if (f.name == file.name)
+                if (f.Name == file.Name)
                 {
                     Memory = this.ConnectedTo.DownloadFile(f, this);
-                    ConsoleHelper.WriteLine("Succesfully downloaded " + Memory.name, Controller.DefaultSuccesColor);
+                    ConsoleHelper.WriteLine("Succesfully downloaded " + Memory.Name, Controller.DefaultSuccesColor);
                     return;
                 }                
             }
-            ConsoleHelper.WriteLine(file.name + "does not exsist on " + this.ConnectedTo.ID, Controller.DefaultErrorColor);
+            ConsoleHelper.WriteLine(file.Name + " does not exsist on " + this.ConnectedTo.ID, Controller.DefaultErrorColor);
         }
     }
 }

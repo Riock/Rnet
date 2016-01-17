@@ -4,15 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Rnet.Classes;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace Rnet
 {
     class Program
     {
+        private static void Window()
+        {
+            Application.Run(new View());
+        }
+
+        [STAThread]
         static void Main(string[] args)
         {
-            #region Initiate program
 
+            #region Initiate program
+            Application.EnableVisualStyles();
             ConsoleHelper.FixEncoding();
 
             ConsoleHelper.ProgressTotal = 100;
@@ -27,6 +36,11 @@ namespace Rnet
             Controller.DefaultColor = ConsoleColor.Yellow;
             ConsoleHelper.ProgressValue = 20;
 
+            Thread formThread = new Thread(new ThreadStart(Window));
+            formThread.Start();
+            while (!formThread.IsAlive) ;
+            Thread.Sleep(1);
+            ConsoleHelper.ProgressValue = 50;
 
             AddData.Run();
             ConsoleHelper.ProgressValue = 99;
@@ -34,10 +48,12 @@ namespace Rnet
             ConsoleHelper.ProgressTotal = 0;
 
             #endregion Initiate program 
+
             
+
             Controller.ConnectClient();
 
-            ConsoleHelper.Wait("Program terminated, press any key to quit");
+            ConsoleHelper.Wait("Program terminated, press any key to quit");            
         }
     }
 }
