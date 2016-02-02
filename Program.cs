@@ -3,23 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Rnet.Classes;
 using System.Windows.Forms;
 using System.Threading;
+using Rnet.Classes;
 
 namespace Rnet
 {
     class Program
-    {
-        private static void Window()
+    {        
+        /// <summary>
+        /// All code in here will be run after the init, but before the main terminal loop. Use for testing save/load/init code
+        /// </summary>
+        private static void TestCode()
         {
-            Application.Run(new View());
+            Load.LoadStorages();
         }
 
         [STAThread]
         static void Main(string[] args)
         {
-
             #region Initiate program
             Application.EnableVisualStyles();
             ConsoleHelper.FixEncoding();
@@ -35,11 +37,7 @@ namespace Rnet
             Controller.DefaultErrorColor = ConsoleColor.Red;
             Controller.DefaultColor = ConsoleColor.Yellow;
             ConsoleHelper.ProgressValue = 20;
-
-            Thread formThread = new Thread(new ThreadStart(Window));
-            formThread.Start();
-            while (!formThread.IsAlive) ;
-            Thread.Sleep(1);
+            
             ConsoleHelper.ProgressValue = 50;
 
             AddData.Run();
@@ -47,13 +45,12 @@ namespace Rnet
 
             ConsoleHelper.ProgressTotal = 0;
 
-            #endregion Initiate program 
+            #endregion Initiate program             
 
-            
-
+            TestCode();
             Controller.ConnectClient();
 
             ConsoleHelper.Wait("Program terminated, press any key to quit");            
-        }
+        }         
     }
 }

@@ -10,7 +10,9 @@ namespace Rnet.Classes
     {
         public static int NextAvailableID { get; set; }
 
-        public string ID { get; private set; }
+        private int id;
+
+        public string ID { get { return "c" + Convert.ToString(this.id); } private set { ;} }
         /// <summary>
         /// The file currently in memory, only this file is available for manipulation
         /// </summary>
@@ -19,7 +21,7 @@ namespace Rnet.Classes
 
         public Client()
         {
-            this.ID = "c" + Convert.ToString(NextAvailableID);
+            this.id = NextAvailableID;
             NextAvailableID++;
         }
 

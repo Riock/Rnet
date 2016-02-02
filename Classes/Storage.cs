@@ -10,12 +10,10 @@ namespace Rnet.Classes
     {
         public static int NextAvailableID { get; set; }
 
-        public string ID { get; private set; }
+        private int id;
+
+        public string ID { get { return "s" + Convert.ToString(this.id); } private set { ;} }
         public List<File> Files { get; private set; }
-        /// <summary>
-        /// The local maximum amount of characters a file can have. Note that the global limit will take priority
-        /// </summary>
-        public int MaxChar { get; private set; }
         /// <summary>
         /// A log of all actions performed on this storage. Format: dateTime - Client action
         /// </summary>
@@ -23,10 +21,19 @@ namespace Rnet.Classes
 
         public Storage()
         {
-            this.ID = "s" + Convert.ToString(NextAvailableID);
+            this.id = NextAvailableID;
             NextAvailableID++;
             this.Files = new List<File>();
             this.Log = new List<string>();
+            this.Log.Add(DateTime.Now + " - Initiated");
+        }
+        public Storage(List<string> log)
+        {
+            this.id = NextAvailableID;
+            NextAvailableID++;
+            this.Files = new List<File>();
+            this.Log = log;
+            SS.Storages.Add(this);
         }
 
         /// <summary>

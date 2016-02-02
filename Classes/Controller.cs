@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Rnet.Classes
 {
     public static class Controller
     {
+        private static void Window()
+        {
+            Application.Run(new View());
+        }
         /// <summary>
         /// The client currently accesed from the terminal
         /// </summary>
@@ -168,6 +173,18 @@ namespace Rnet.Classes
                 ClientMain();
                 return;
             }
+            else if (LastInput == "test")
+            {
+                Test();
+                ClientMain();
+                return;
+            }
+            else if (LastInput == "dev")
+            {
+                Dev();
+                ClientMain();
+                return;
+            }
             ClientMain();
         }
         /// <summary>
@@ -285,6 +302,19 @@ namespace Rnet.Classes
             ConsoleHelper.WriteLine("Viewing " + ActiveClient.Memory.Name, DefaultColor);
             ConsoleHelper.WriteLine(ActiveClient.Memory.Content, ConsoleColor.White);
             ConsoleHelper.WriteLine("End of file", DefaultColor);
+        }
+        private static void Test()
+        {
+            ConsoleHelper.WriteLine("Running test code", DefaultColor);
+            Save.SaveAll();
+        }
+        private static void Dev()
+        {
+            ConsoleHelper.WriteLine("Opening dev window", DefaultColor);
+            Thread formThread = new Thread(new ThreadStart(Window));
+            formThread.Start();
+            while (!formThread.IsAlive) ;
+            Thread.Sleep(1);
         }
     }
 }
